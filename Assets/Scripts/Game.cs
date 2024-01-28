@@ -118,7 +118,11 @@ public class Game : MonoBehaviour
             {
                 BallPosition -= 1;
             }
+
+            BallPositionIsInfinity();
+
             pv.RPC("MoveBallClient", RpcTarget.All, BallPosition);
+
             PlayerList[0].isAnswered = false;
             PlayerList[1].isAnswered = false;
         }
@@ -131,6 +135,9 @@ public class Game : MonoBehaviour
             if (PlayerList[0].isAnswered == true)
             {
                 BallPosition += 1;
+
+                BallPositionIsInfinity();
+
                 pv.RPC("MoveBallClient", RpcTarget.All, BallPosition);
             }
             PlayerList[0].isAnswered = false;
@@ -138,14 +145,25 @@ public class Game : MonoBehaviour
     }
     private bool BallPositionIsInfinity()
     {
-        if(BallPosition > 4)
+        if (PlayerList.Count == 2)
         {
-            PlayerList[1].Score++;
+            if (BallPosition < 4)
+            {
+                PlayerList[1].Score++;
+            }
+            if (BallPosition > 0)
+            {
+                PlayerList[0].Score++;
+            }
         }
-        if (BallPosition < 0)
+        else
         {
-            PlayerList[0].Score++;
+            if (BallPosition < 4)
+            {
+                PlayerList[0].Score++;
+            }
         }
+        BallPosition = 2;
         return true;
     }
     [PunRPC]
