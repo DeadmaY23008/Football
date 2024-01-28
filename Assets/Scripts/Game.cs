@@ -35,12 +35,12 @@ public class Game : MonoBehaviour
             StartGame();
         }
     }
-
+    [PunRPC]
     private void UpdateScore()
     {
         if (PlayerList.Count == 2)
         {
-            Score.text = PlayerList[0].NickName + " " + PlayerList[0].Score + " " + PlayerList[1]?.NickName + " " + PlayerList[1]?.Score;
+            Score.text = PlayerList[0].NickName + " очки" + PlayerList[0].Score + " " + PlayerList[1]?.NickName + " очки" + PlayerList[1]?.Score;
         }
         else
         {
@@ -89,7 +89,7 @@ public class Game : MonoBehaviour
             {
                 MoveBall();
                 StartGame();
-                timer = 3f;
+                timer = 10f;
             }
         }
         if (timer >= 0)
@@ -142,29 +142,31 @@ public class Game : MonoBehaviour
             }
             PlayerList[0].isAnswered = false;
         }
+        UpdateScore();
     }
-    private bool BallPositionIsInfinity()
+    private void BallPositionIsInfinity()
     {
         if (PlayerList.Count == 2)
         {
-            if (BallPosition < 4)
+            if (BallPosition > 4)
             {
                 PlayerList[1].Score++;
+                BallPosition = 2;
             }
-            if (BallPosition > 0)
+            if (BallPosition < 0)
             {
                 PlayerList[0].Score++;
-            }//dqwdqwdqwdqw
+                BallPosition = 2;
+            }
         }
         else
         {
-            if (BallPosition < 4)
+            if (BallPosition > 4)
             {
                 PlayerList[0].Score++;
+                BallPosition = 2;
             }
         }
-        BallPosition = 2;
-        return true;
     }
     [PunRPC]
     public void PlayerAnswer(int id, string nick)
