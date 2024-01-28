@@ -78,23 +78,33 @@ public class Game : MonoBehaviour
 
     private void Update()
     {
+        Master();
+        TimerText.text = "Время на ответ " + timer;
+        if (timer >= 0)
+        {
+            timer -= Time.deltaTime;
+        }
+    }
+    [PunRPC]
+    public void Timer(float time)
+    {
+        timer = time;
+    }
+    private void Master()
+    {
         if (PhotonNetwork.IsMasterClient == false)
         {
             return;
         }
-        TimerText.text = "Время на ответ " + timer;
         if (GameStarted)
         {
             if (timer <= 0)
             {
                 MoveBall();
                 StartGame();
+                pv.RPC("Timer", RpcTarget.All, 10f);
                 timer = 10f;
             }
-        }
-        if (timer >= 0)
-        {
-            timer -= Time.deltaTime;
         }
     }
 
@@ -177,7 +187,6 @@ public class Game : MonoBehaviour
             if (item.NickName == nick)
             {
                 player = item;
-                break;
             }
         }
         if (player == null)
