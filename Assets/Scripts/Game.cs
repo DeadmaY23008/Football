@@ -154,7 +154,7 @@ public class Game : MonoBehaviour
             if (BallPosition > 0)
             {
                 PlayerList[0].Score++;
-            }
+            }//dqwdqwdqwdqw
         }
         else
         {
