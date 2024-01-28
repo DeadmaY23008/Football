@@ -145,13 +145,23 @@ public class Game : MonoBehaviour
     }
     private bool BallPositionIsInfinity()
     {
-        if(BallPosition > 4)
+        if (PlayerList.Count == 2)
         {
-            PlayerList[1].Score++;
+            if (BallPosition < 4)
+            {
+                PlayerList[1].Score++;
+            }
+            if (BallPosition > 0)
+            {
+                PlayerList[0].Score++;
+            }
         }
-        if (BallPosition < 0)
+        else
         {
-            PlayerList[0].Score++;
+            if (BallPosition < 4)
+            {
+                PlayerList[0].Score++;
+            }
         }
         BallPosition = 2;
         return true;
