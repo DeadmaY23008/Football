@@ -20,7 +20,8 @@ public class Menu : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        PhotonNetwork.LocalPlayer.NickName = "Бомж " + Random.Range(0, 500);
+        AddConsoleMessage("Попытка подключение к мастеру серверов");
+        PhotonNetwork.LocalPlayer.NickName = "Игрок" + Random.Range(0, 2);
         PhotonNetwork.AutomaticallySyncScene = true;
         foreach (Button item in MenuButtons)
         {
